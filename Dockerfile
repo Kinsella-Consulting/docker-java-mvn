@@ -7,8 +7,8 @@ RUN apt-get install -qqy x11-apps
 
 #RUN apt-get install libxext6
 RUN apt-get install libxrender1
-RUN apt-get install libxtst6
-RUN apt-get install libxi6
+RUN apt-get install -y libxtst6
+RUN apt-get install -y libxi6
 
 ENV DISPLAY :0
 CMD xeyes
