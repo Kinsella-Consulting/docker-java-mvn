@@ -1,10 +1,6 @@
 # docker-java-mvn
 HelloWorld Java Swing App Running in a Docker Container built by Maven
 
-## Reference Articles that got me started:
-1. https://medium.com/@learnwell/how-to-dockerize-a-java-gui-application-bce560abf62a
-2. https://blog.rabin.io/linux/running-java-gui-application-in-docker
-
 ## Steps to run a Java Swing Application in a Docker container built by Maven
 1. Build image:
   `docker build -t java-swing-app-mvn .`
@@ -14,9 +10,13 @@ HelloWorld Java Swing App Running in a Docker Container built by Maven
       `brew install socat`
 3. Run:
   `docker run -ti -v /tmp/.X11-unix -v /tmp/.docker.xauth -e XAUTHORITY=/tmp/.docker.xauth --net=host -e DISPLAY=$(ipconfig getifaddr en0):0 java-swing-app-mvn`
+  or `./run.sh`
 
-## Previous Errors & Steps to get to above
+## Reference Articles that got me started:
+1. https://medium.com/@learnwell/how-to-dockerize-a-java-gui-application-bce560abf62a
+2. https://blog.rabin.io/linux/running-java-gui-application-in-docker
 
+## Previous Errors & Steps to get to the above
 ```
 [WARNING] java.awt.AWTError: Can't connect to X11 window server using '10.0.0.210:0' as the value of the DISPLAY variable.
 	at sun.awt.X11GraphicsEnvironment.initDisplay(Native Method)
