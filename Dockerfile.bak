@@ -1,0 +1,11 @@
+FROM ubuntu:18.04
+
+# Update and get full JDK for X11
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y openjdk-11-jdk xvfb
+
+WORKDIR /apps
+COPY . /apps
+RUN mvn clean install
+
+# Don't forget to substitute the following with a real mainClass
+RUN xvfb-run java -jar JFrameDocker.jar

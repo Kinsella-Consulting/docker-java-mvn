@@ -1,11 +1,15 @@
 FROM opensuse/leap
 
+# Maven for build
 FROM maven:3.6.3-jdk-8
 
-RUN apt-get update
+# Update and get full JDK for X11
+RUN apt-get update -y
+RUN apt-get upgrade -y
 RUN apt-get install -qqy x11-apps
 
-#RUN apt-get install libxext6
+# Get libraries to successfully execute X11
+RUN apt-get install libxext6
 RUN apt-get install libxrender1
 RUN apt-get install -y libxtst6
 RUN apt-get install -y libxi6

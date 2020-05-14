@@ -13,9 +13,9 @@ HelloWorld Java Swing App Running in a Docker Container built by Maven
     * As needed, install socat:
       `brew install socat`
 3. Run:
-  `docker run -v /tmp/.X11-unix:/tmp/.X11-unix --volume="$HOME/.Xauthority:/root/.Xauthority:rw" --net=host --net=bridge -e DISPLAY=$DISPLAY -ti --rm java-swing-app-mvn`
+  `docker run -ti -v /tmp/.X11-unix -v /tmp/.docker.xauth -e XAUTHORITY=/tmp/.docker.xauth --net=host -e DISPLAY=$(ipconfig getifaddr en0):0 java-swing-app-mvn`
 
-## Previous Errors
+## Previous Errors & Steps to get to above
 
 ```
 [WARNING] java.awt.AWTError: Can't connect to X11 window server using '10.0.0.210:0' as the value of the DISPLAY variable.
@@ -111,44 +111,7 @@ docker run -ti -v /tmp/.X11-unix -v /tmp/.docker.xauth -e XAUTHORITY=/tmp/.docke
 * https://askubuntu.com/questions/674579/libawt-xawt-so-libxext-so-6-cannot-open-shared-object-file-no-such-file-or-di
 * https://www.ibm.com/support/pages/unsatisfiedlinkerror-cannot-open-shared-object-file-libxtstso6
 
-`docker run -ti -v /tmp/.X11-unix -v /tmp/.docker.xauth -e XAUTHORITY=/tmp/.docker.xauth --net=host -e DISPLAY=$DISPLAY java-swing-app-mvn`
+## Needed to add -y to apt-get calls in Dockerfile
+* https://askubuntu.com/questions/509852/why-does-apt-get-abort-by-itself-as-though-id-pressed-n
 
-## New error when updating the Dockerfile to include -y in apt-get calls
-```
-[WARNING]
-java.awt.AWTError: Can't connect to X11 window server using '/private/tmp/com.apple.launchd.qInLn98K6D/org.macosforge.xquartz:0' as the value of t
-    at sun.awt.X11GraphicsEnvironment.initDisplay (Native Method)
-    at sun.awt.X11GraphicsEnvironment.access$200 (X11GraphicsEnvironment.java:65)
-    at sun.awt.X11GraphicsEnvironment$1.run (X11GraphicsEnvironment.java:115)
-    at java.security.AccessController.doPrivileged (Native Method)
-    at sun.awt.X11GraphicsEnvironment.<clinit> (X11GraphicsEnvironment.java:74)
-    at java.lang.Class.forName0 (Native Method)
-    at java.lang.Class.forName (Class.java:264)
-    at java.awt.GraphicsEnvironment.createGE (GraphicsEnvironment.java:103)
-    at java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment (GraphicsEnvironment.java:82)
-    at sun.awt.X11.XToolkit.<clinit> (XToolkit.java:132)
-    at java.lang.Class.forName0 (Native Method)
-    at java.lang.Class.forName (Class.java:264)
-    at java.awt.Toolkit$2.run (Toolkit.java:860)
-    at java.awt.Toolkit$2.run (Toolkit.java:855)
-    at java.security.AccessController.doPrivileged (Native Method)
-    at java.awt.Toolkit.getDefaultToolkit (Toolkit.java:854)
-    at java.awt.Toolkit.getEventQueue (Toolkit.java:1736)
-    at java.awt.EventQueue.invokeLater (EventQueue.java:1294)
-    at javax.swing.SwingUtilities.invokeLater (SwingUtilities.java:1295)
-    at start.HelloWorldSwing.main (HelloWorldSwing.java:31)
-    at sun.reflect.NativeMethodAccessorImpl.invoke0 (Native Method)
-    at sun.reflect.NativeMethodAccessorImpl.invoke (NativeMethodAccessorImpl.java:62)
-    at sun.reflect.DelegatingMethodAccessorImpl.invoke (DelegatingMethodAccessorImpl.java:43)
-    at java.lang.reflect.Method.invoke (Method.java:498)
-    at org.codehaus.mojo.exec.ExecJavaMojo$1.run (ExecJavaMojo.java:282)
-    at java.lang.Thread.run (Thread.java:748)
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD FAILURE
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  15.690 s
-[INFO] Finished at: 2020-05-13T16:29:38Z
-[INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.6.0:java (default-cli) on project java-swing-app-mvn: An exception occured while executing the Java class. Can't connect to X11 window server using '/private/tmp/com.apple.launchd.qInLn98K6D/org.macosforge.xquartz:0' as the value of t -> [Help 1]
-[ERROR] 
-```
+`docker run -ti -v /tmp/.X11-unix -v /tmp/.docker.xauth -e XAUTHORITY=/tmp/.docker.xauth --net=host -e -e DISPLAY=$(ipconfig getifaddr en0):0 java-swing-app-mvn`
